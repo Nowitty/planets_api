@@ -9,9 +9,6 @@
         "guzzlehttp/guzzle": "^6.5"
     },
     "autoload": {
-        "files": [
-            "src/getPlanets.php"
-        ],
         "psr-4": {
             "App\\": "src/"
         }

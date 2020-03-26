@@ -6,18 +6,20 @@ class Database
     public function __construct()
     {
         $opt = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
-        $this->pdo = new \PDO('pgsql:host=localhost;dbname=ruslankuga', null, null, $opt);
+        $this->pdo = new \PDO('pgsql:host=localhost;dbname=planetsDB', null, null, $opt);
     }
     public function insert($data)
     {
-        //var_dump($data);
-        //$sth = $this->pdo->prepare("INSERT INTO planets VALUES (?)");
+        $sql = '';
         foreach ($data as $value) {
-            $this->pdo->exec("INSERT INTO planets VALUES ('$value')");
+            foreach ($value as $planet) {
+                $sql .= "INSERT INTO planets VALUES ({$this->pdo->quote($planet)}); ";
+            }
         }
+        $this->pdo->exec($sql);
     }
-    public function select()
+    public function select($limit, $offset)
     {
-        return $this->pdo->query("SELECT * FROM planets")->fetchAll(\PDO::FETCH_ASSOC);
+        return $this->pdo->query("SELECT * FROM planets LIMIT $limit OFFSET $offset")->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

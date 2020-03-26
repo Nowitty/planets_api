@@ -16,14 +16,18 @@ class PlanetsApi
     }
     public function getPlanets()
     {
-        $resp = $this->client
+        while (true) {
+            $resp = $this->client
             ->get($this->url)
             ->getBody();
-        $resp = json_decode($resp, true);
-        $this->url = $resp['next'];
-        $data = array_map(function ($item) {
-            return $item['name'];
-        }, $resp['results']);
-        return $data;
+            $resp = json_decode($resp, true);
+            $this->url = $resp['next'];
+            $data[] = array_map(function ($item) {
+                return $item['name'];
+            }, $resp['results']);
+            if ($this->url == null) {
+                return $data;
+            }
+        }
     }
 }

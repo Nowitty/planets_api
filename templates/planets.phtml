@@ -1,5 +1,11 @@
 <h1>Planets</h1>
 
-<form action="/load_planets" method="post">
-    <button>Need more planets</button>
-</form>
+<?php foreach ($planets as $planet) : ?>
+  <div>
+    <b><?= htmlspecialchars($planet) ?></b>
+  </div>
+<?php endforeach ?>
+<div>
+<a href="?page=<?= $page < 2 ? 1 : $page - 1 ?>">Prev</a><?php if (!empty($planets)):?> <a href="?page=<?= $page + 1 ?>">Next</a>
+<?php endif; ?>
+</div>
